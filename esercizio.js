@@ -14,7 +14,7 @@ function CountLifeTime(DataNascita) {
         const result = Math.floor(((((oggi - DataNascita) / 1000) / 60) / 60) / 24);
         return result;
     }
-    throw Error("Data invalida");
+    throw new Error("Data invalida");
 }
 
 describe ("Giorni di vita test", () => {
