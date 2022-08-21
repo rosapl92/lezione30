@@ -99,5 +99,5 @@ describe("PersonTest", () => {
             'Giuseppe ha 24 anni.\n' +
             'Danilo ha 18 anni.\n')
         assert.equal(result, expectedResult);
-    });
+    })
 })
