@@ -32,7 +32,7 @@ function createPerson(nome, eta = 18) {
 }
 
 //metodo "printPerson"
-const printPersons = function (array) {
+const printPersons = function (array, externalFormatter) {
     let result = "";
     if (array instanceof Array){
         //for (const element of array){
@@ -46,11 +46,14 @@ const printPersons = function (array) {
        oppure (con funzioni array MAP e REDUCE)
 
         */
-       return array
-           .map (element => (element.nome + " is " + element.eta + " years old.")+"\n")
-           .reduce((current, prov) => current + prov);
-
-
+        const format = externalFormatter === undefined ?
+            (element) => element.nome + " is " + element.eta + " years old."+"\n" :
+            (element) => externalFormatter (element.nome, element.eta)+"\n";
+       return array instanceof Array ?
+           array
+           .map (format)
+           .reduce((current, prov) => current + prov)
+           : "";
     }
     return result;
 }
@@ -80,6 +83,21 @@ describe("PersonTest", () => {
             'Mario is 23 years old.\n' +
             'Giuseppe is 24 years old.\n' +
             'Danilo is 18 years old.\n')
+        assert.equal(result, expectedResult);
+    });
+    it('funzione printPerson formattata', () => {
+        const array = [createPerson("Francesco", 33),
+            createPerson("Sara",27),
+            createPerson("Mario",23),
+            createPerson("Giuseppe", 24),
+            createPerson("Danilo",)];
+        const formatter = (nome, eta) => nome + " ha " + eta + " anni.";
+        const result = printPersons(array, formatter);
+        const expectedResult = ( 'Francesco ha 33 anni.\n' +
+            'Sara ha 27 anni.\n' +
+            'Mario ha 23 anni.\n' +
+            'Giuseppe ha 24 anni.\n' +
+            'Danilo ha 18 anni.\n')
         assert.equal(result, expectedResult);
     });
 })
